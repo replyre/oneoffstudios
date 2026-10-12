@@ -104,8 +104,9 @@
 <body>
 
   <section class="stage">
-    <video class="active" src="YgGPnukFtNkkzuraeLxhNQ.mp4" muted playsinline preload="auto"></video>
-    <video src="H0iMHRGUMBErPcS7cN5VJQ.mp4" muted playsinline preload="auto"></video>
+    <video class="active" src="H0iMHRGUMBErPcS7cN5VJQ.mp4" muted playsinline preload="auto"></video>
+    <video src="49459c6a-77b4-4310-871d-20e12627ce92.mp4" muted playsinline preload="auto"></video>
+    <video src="YgGPnukFtNkkzuraeLxhNQ.mp4" muted playsinline preload="auto"></video>
 
     <button class="arrow prev" aria-label="Previous">
       <svg viewBox="0 0 22 30" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 2 4 15l12 13"/></svg>
@@ -118,12 +119,13 @@
   <div class="dots" id="dots">
     <button class="active" aria-label="Video 1"></button>
     <button aria-label="Video 2"></button>
+    <button aria-label="Video 3"></button>
   </div>
 
   <div class="logo">oneoffstudio<sup>®</sup></div>
 
   <script>
-    // Two-video carousel: each video plays through, then hands off to the next.
+    // Video carousel: each video plays through, then hands off to the next.
     const videos = [...document.querySelectorAll('.stage video')];
     const dots = [...document.querySelectorAll('#dots button')];
     const n = videos.length;
