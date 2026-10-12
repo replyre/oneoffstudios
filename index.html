@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>oneoff studio</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,600&display=swap" rel="stylesheet">
@@ -29,9 +31,9 @@
     /* ---------- Carousel ---------- */
     .stage {
       position: relative;
-      /* largest 16:9 box that fits beside the gutters and above the dots + logo */
-      width: min(calc(100vw - 2 * var(--gutter)), calc((100vh - 240px) * 16 / 9));
-      aspect-ratio: 16 / 9; /* matches the 3840×2160 videos, so nothing is cropped */
+      /* full width, same height as before; the video is cropped top/bottom to fill */
+      width: calc(100vw - 2 * var(--gutter));
+      height: calc(100vh - 240px);
       overflow: hidden;
       background: #000;
     }
