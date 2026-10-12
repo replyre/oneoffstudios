@@ -48,6 +48,11 @@
       cursor: pointer;
     }
     .stage video.active { opacity: 1; }
+    .stage-link {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+    }
     .arrow {
       position: absolute;
       top: 50%;
@@ -108,6 +113,8 @@
     <video class="active" data-href="https://ria-prism.vercel.app/" src="H0iMHRGUMBErPcS7cN5VJQ.mp4" muted playsinline preload="auto"></video>
     <video data-href="https://bidwiser-lake.vercel.app/" src="49459c6a-77b4-4310-871d-20e12627ce92.mp4" muted playsinline preload="auto"></video>
     <video data-href="https://iridescent-dango-7ac4a3.netlify.app/" src="YgGPnukFtNkkzuraeLxhNQ.mp4" muted playsinline preload="auto"></video>
+    <!-- a real link over the video; its href follows the active slide -->
+    <a class="stage-link" id="stageLink" href="https://ria-prism.vercel.app/" aria-label="Open project"></a>
 
     <button class="arrow prev" aria-label="Previous">
       <svg viewBox="0 0 22 30" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 2 4 15l12 13"/></svg>
@@ -138,6 +145,7 @@
       videos.forEach((v, k) => v.classList.toggle('active', k === i));
       dots.forEach((d, k) => d.classList.toggle('active', k === i));
       current = i;
+      document.getElementById('stageLink').href = videos[i].dataset.href;
       videos[i].currentTime = 0;
       videos[i].play();
     };
@@ -147,11 +155,6 @@
     document.querySelector('.prev').addEventListener('click', () => go(current - 1));
     document.querySelector('.next').addEventListener('click', () => go(current + 1));
 
-    // Clicking the stage opens the site for whichever video is showing.
-    document.querySelector('.stage').addEventListener('click', e => {
-      if (e.target.closest('.arrow')) return;
-      window.open(videos[current].dataset.href, '_blank', 'noopener');
-    });
 
     videos[0].play();
   </script>
