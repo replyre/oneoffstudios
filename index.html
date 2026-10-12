@@ -3,44 +3,48 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>oneup studio</title>
+  <title>oneoff studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,600;125,700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f3f2f2;
-      --ink: #111;
-      --bar: #4a4c6e;
-      --dot: #c9c9c9;
+      --bg: #000;
+      --ink: #fff;
+      --dot: #555;
       --gutter: 20px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; }
     body {
       background: var(--bg);
       color: var(--ink);
-      font-family: "Open Sans", system-ui, sans-serif;
-      min-height: 100vh;
-      border-top: 4px solid var(--bar);
+      height: 100vh;
+      overflow: hidden;
+      justify-content: center;
+      align-items: center;
       display: flex;
       flex-direction: column;
     }
 
-    /* ---------- Media ---------- */
+    /* ---------- Carousel ---------- */
     .stage {
       position: relative;
-      margin: 20px var(--gutter) 0;
-      aspect-ratio: 16 / 9; /* matches the 3840×2160 video, so nothing is cropped */
+      /* largest 16:9 box that fits beside the gutters and above the dots + logo */
+      width: min(calc(100vw - 2 * var(--gutter)), calc((100vh - 240px) * 16 / 9));
+      aspect-ratio: 16 / 9; /* matches the 3840×2160 videos, so nothing is cropped */
       overflow: hidden;
       background: #000;
     }
     .stage video {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
+      opacity: 0;
+      transition: opacity 0.6s ease;
     }
+    .stage video.active { opacity: 1; }
     .arrow {
       position: absolute;
       top: 50%;
@@ -49,10 +53,11 @@
       height: 48px;
       border: 0;
       background: transparent;
-      color: #fff;
+      color: var(--ink);
       cursor: pointer;
       display: grid;
       place-items: center;
+      z-index: 1;
     }
     .arrow svg { width: 22px; height: 30px; }
     .arrow.prev { left: 14px; }
@@ -74,74 +79,31 @@
     }
     .dots button.active { background: var(--ink); }
 
-    /* ---------- Footer ---------- */
-    footer {
-      margin-top: 140px;
-      padding: 0 var(--gutter) 26px;
-      display: grid;
-      /* column starts mirror the reference: ~35% / 55% / 75% of the width */
-      grid-template-columns: 34.2% 20% 24.5% 1fr;
-      align-items: end;
-    }
+    /* ---------- Logo ---------- */
     .logo {
+      margin: 0;
+      padding: 48px var(--gutter) 0;
+      text-align: center;
       font-family: "Archivo", sans-serif;
       font-stretch: 125%;
       font-weight: 600;
-      font-size: clamp(28px, 2.85vw, 56px);
+      font-size: clamp(32px, 4vw, 72px);
       letter-spacing: -0.03em;
       line-height: 1;
       white-space: nowrap;
-      align-self: end;
     }
     .logo sup {
       font-size: 0.38em;
       vertical-align: -0.05em;
       margin: 0 0.08em 0 0.04em;
     }
-    .tagline, .nav a, .contact {
-      font-size: 14px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
-      line-height: 1.32;
-    }
-    .tagline { max-width: 300px; align-self: start; }
-    .nav {
-      display: grid;
-      grid-template-columns: repeat(3, auto);
-      column-gap: 62px;
-      justify-content: start;
-      row-gap: 14px;
-      align-self: start;
-    }
-    .nav a, .contact a { color: inherit; text-decoration: none; }
-    .nav a:hover, .contact a:hover { text-decoration: underline; }
-    .right {
-      display: flex;
-      justify-content: space-between;
-      align-self: start;
-    }
-    .contact { display: flex; flex-direction: column; gap: 6px; }
-    .contact a { text-transform: uppercase; }
-    .insta { margin-top: 16px; color: var(--ink); }
-    .insta svg { width: 36px; height: 36px; display: block; }
-
-    @media (max-width: 1100px) {
-      body { overflow: auto; height: auto; min-height: 100vh; }
-      footer {
-        margin-top: 60px;
-        grid-template-columns: 1fr;
-        row-gap: 28px;
-      }
-      .nav { grid-template-columns: repeat(2, auto); justify-content: start; }
-      .right { justify-content: space-between; }
-    }
   </style>
 </head>
 <body>
 
   <section class="stage">
-    <video id="hero" src="YgGPnukFtNkkzuraeLxhNQ.mp4" autoplay muted loop playsinline preload="auto"></video>
+    <video class="active" src="YgGPnukFtNkkzuraeLxhNQ.mp4" muted playsinline preload="auto"></video>
+    <video src="H0iMHRGUMBErPcS7cN5VJQ.mp4" muted playsinline preload="auto"></video>
 
     <button class="arrow prev" aria-label="Previous">
       <svg viewBox="0 0 22 30" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 2 4 15l12 13"/></svg>
@@ -152,62 +114,35 @@
   </section>
 
   <div class="dots" id="dots">
-    <button class="active" aria-label="Slide 1"></button>
-    <button aria-label="Slide 2"></button>
-    <button aria-label="Slide 3"></button>
-    <button aria-label="Slide 4"></button>
-    <button aria-label="Slide 5"></button>
+    <button class="active" aria-label="Video 1"></button>
+    <button aria-label="Video 2"></button>
   </div>
 
-  <footer>
-    <div class="logo">oneup<sup>®</sup>studio</div>
-
-    <p class="tagline">A global creative studio building identity, strategy &amp; design for what’s next.</p>
-
-    <nav class="nav">
-      <a href="#">Work</a>
-      <a href="#">Services</a>
-      <a href="#">Studio Supplies</a>
-      <a href="#">About Us</a>
-      <a href="#">Events</a>
-      <a href="#">Wired</a>
-    </nav>
-
-    <div class="right">
-      <div class="contact">
-        <span>Get in touch</span>
-        <a href="mailto:hello@oneup.co">hello@oneup.co</a>
-      </div>
-      <a class="insta" href="#" aria-label="Instagram">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
-          <circle cx="12" cy="12" r="4.3"/>
-          <circle cx="17.6" cy="6.4" r="0.6" fill="currentColor"/>
-        </svg>
-      </a>
-    </div>
-  </footer>
+  <div class="logo">oneoff<sup>®</sup>studio</div>
 
   <script>
-    // One video, five segments: the dots track playback and the arrows/dots seek.
-    const video = document.getElementById('hero');
+    // Two-video carousel: each video plays through, then hands off to the next.
+    const videos = [...document.querySelectorAll('.stage video')];
     const dots = [...document.querySelectorAll('#dots button')];
-    const n = dots.length;
+    const n = videos.length;
+    let current = 0;
 
-    const seg = () => Math.min(n - 1, Math.floor((video.currentTime / (video.duration || 1)) * n));
     const go = i => {
       i = (i + n) % n;
-      if (video.duration) video.currentTime = (video.duration / n) * i + 0.01;
-      video.play();
+      videos[current].pause();
+      videos.forEach((v, k) => v.classList.toggle('active', k === i));
+      dots.forEach((d, k) => d.classList.toggle('active', k === i));
+      current = i;
+      videos[i].currentTime = 0;
+      videos[i].play();
     };
 
-    video.addEventListener('timeupdate', () => {
-      const s = seg();
-      dots.forEach((d, i) => d.classList.toggle('active', i === s));
-    });
+    videos.forEach(v => v.addEventListener('ended', () => go(current + 1)));
     dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
-    document.querySelector('.prev').addEventListener('click', () => go(seg() - 1));
-    document.querySelector('.next').addEventListener('click', () => go(seg() + 1));
+    document.querySelector('.prev').addEventListener('click', () => go(current - 1));
+    document.querySelector('.next').addEventListener('click', () => go(current + 1));
+
+    videos[0].play();
   </script>
 </body>
 </html>
